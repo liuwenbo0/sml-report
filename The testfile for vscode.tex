@@ -10,6 +10,9 @@
 \usepackage{geometry}
 \usepackage{pdfpages}
 \usepackage[ruled,vlined,boxed,linesnumbered]{algorithm2e}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{Consolas}
 \input{sml.tex}
 \graphicspath{{Figures/}}%文章所用图片在当前目录下的 Figures目录
 \geometry{left=4.0cm,right=4.0cm,top=5cm,bottom=5cm}
@@ -105,8 +108,11 @@ $$S(n)=S(n-1)+S(lgn)$$
 测试样例如下图所示,它是一个长度为10的序列
 \Figure{0.075\textheight}{example1.png}\\
 首先选择 10 作为基准元素，进行划分得到[[9 6] 10 [155 200 60 174 17 172 103]]\\
+\\\
 然后对于左边和右边的再次进行同样的步骤，左边以 9作为基准元素，右边以 155 作为基准元素，进行划分得到[[6] 9 []] [[60 17 103] 155 [200 174 172]]\\
+\\\
 继续这样不断递归，直到子序列长度为 0 时终止递归，返回结果，按照左边 + 基准元素 + 右边 的方式将其连接并返回\\
+\\\
 最终返回结果[6,9,10,17,60,103,155,172,174,200]
 
 \newpage
@@ -163,8 +169,8 @@ $Dijkstra$是一个典型的串行算法,它的每次计算都依赖前面的结
 那么总的$Work$为$O(n^2)$,$Span$为$O(nlgn)$\\\
 用邻接矩阵保存图，用两个长度为N的数组来记录距离和标记访问，则总的空间复杂度为$O(n^2)$
 \subsection{样例分析}
-测试样例如下图所示,它是一个包含7个节点，15条边的图，其中源点为5号节点\\
-\Figure{0.3\textheight}{example2.png}
+测试样例如下图所示,它是一个包含7个节点，15条边的图，其中源点为5号节点
+\Figure{0.3\textheight}{example2.png}\\
 算法过程如下：
 \begin{enumerate}
     \item $distance$为$[\infty,\infty,\infty,\infty,\textcolor{red}{0},\infty,\infty]$
@@ -213,8 +219,8 @@ printInt(res);
 \subsection{复杂度分析}
 该算法遍历输入序列，故其$Work=Span=O(n)$，使用栈来模式匹配,空间复杂度为$O(n)$
 \subsection{样例分析}
-测试样例如下图所示,它是一个长度为10的序列\\
-\Figure{0.1\textheight}{example3.png}
+测试样例如下图所示,它是一个长度为10的序列
+\Figure{0.1\textheight}{example3.png}\\
 算法过程如下：
 \begin{enumerate}
     \item 栈为空，max=0
@@ -233,36 +239,109 @@ printInt(res);
 
 \newpage
 \section{实验四：天际线}
-
 \subsection{题目描述}
+第一行输入一个整数$N$，表示建筑的数量 。接下来N行 ， 每行输入3个整数$li ,hi ,ri$ 分别为建筑的左边界坐标，高度，右边界坐标\\
+输出天际线的轮廓，即在建筑高度发生突变的位置输出建筑坐标以及建筑的高度(在建筑重合的地方我们可以知道低的建筑可以被高的建筑阻挡，因此我
+们只需注意每个坐标的最高建筑的高度即可)
 
 \subsection{算法流程}
+采用扫描线的算法,只在边界点进行比较，使用优先队列维护最大高度，使用一个轮廓列表来存储轮廓结果
+\begin{enumerate}
+    \item 在输入数据的基础上加入地平线
+    \item 使用快速排序按左边界坐标对输入的建筑物进行排序
+    \item 对所有边界点进行快排
+    \item 遍历排序后的边界点序列，将左边界等于当前边界点的建筑的高度入队，将右边界等于当前边界点的建筑的高度出队，当最大高度(优先队列队首元素)改变时将当前坐标和新的最大高度存入轮廓列表
+    \item 输出轮廓序列
+\end{enumerate}
 
 \subsection{复杂度分析}
+步骤一的快速排序的$Work$为$O(nlgn)$,$Span$为$O(lg^2n)$\\
+步骤二串行扫描，每次更新需要保持优先队列有序，则$Work=Span=O(lgn)$，一共2n次，所以$Work=Span=O(nlgn)$\par
+故算法总的$Work=Span=O(nlgn)$\par
+算法的空间复杂度易知为$O(n)$
 
 \subsection{样例分析}
+测试样例如下图所示,它包含4个建筑物
+\Figure{0.25\textheight}{example4.png}\\
+算法过程如下：
+\begin{enumerate}
+    \item 边界点序列为$[1,3,4,6,7,8,10,11]$,同时得到有序的建筑物序列
+    \item 当前边界点为1，地平线(1,0,11)和(1,3,4)入队，队首元素为(1,3,4),(1,3)存入轮廓序列
+    \item 当前边界点为3，(3,2,11)入队
+    \item 当前边界点为4，(1,3,4)出队，队首元素为(3,2,11),(4,2)存入轮廓序列
+    \item 当前边界点为6，(6,6,8)入队，队首元素为(6,6,8),(6,6)存入轮廓序列
+    \item 当前边界点为7，(7,4,10)入队
+    \item 当前边界点为8，(6,6,8)出队，队首元素为(7,4,10),(8,4)存入轮廓序列
+    \item 当前边界点为10，(7,4,10)出队，队首元素为(3,2,11),(10,2)存入轮廓序列
+    \item 当前边界点为11，(3,2,11)出队，队首元素为(1,0,11),(11,0)存入轮廓序列
+    \item 输出轮廓序列
+\end{enumerate}
 
 \newpage
 \section{实验五：括号匹配}
 
 \subsection{题目描述}
-
+给定一个括号序列，判断它是否是匹配的。注意 ()() 在本题也当做匹配处理。\\
+第一行输入一个整数$N$，满足$N\leq20000$，表示括号的个数。
+第二行输入$N$个整数0或1，0表示左括号，1表示右括号。
+如果匹配，输出 1，否则输出0 。
 \subsection{算法流程}
-
+这一题相对比较简单，我们用一个state来记录括号匹配的状态。
+\par 我们遍历括号序列，当遇到左括号state就加1，遇到右括号state就减1，当遍历完序列时state恰好还是0，那么就匹配上了。当然如果遍历过程中出现state小于0的情况那么说明已经出错了，最后直接输出0就可以了。\\
+实现代码如下：
+\begin{lstlisting}
+(*****Begin*****)
+val N = getInt(); 
+val s = getIntTable(N);
+fun match([], state) = state
+| match(x::xs, state) =
+    if state = ~1 then ~1
+    else if x = 1 then match(xs, state - 1) 
+    else match(xs, state + 1);
+val res:int = if match(s, 0) = 0 then 1 else 0;
+printInt(res);
+(*****End*****)
+\end{lstlisting}
 \subsection{复杂度分析}
-
+我们用一次遍历过程来得到结果，故该算法的$Work=Span=O(n)$\par
+使用一个长度为n的序列来保存括号序列，故空间复杂度为$O(n)$
 \subsection{样例分析}
+测试样例如下图所示,它是一个长度为6的序列
+\Figure{0.2\textheight}{example5.png}\\
+算法过程如下：
+\begin{enumerate}
+    \item state初始为0
+    \item 第一个元素为0，state加1，为1
+    \item 第二个元素为0，state加1，为2
+    \item 第三个元素为0，state加1，为3
+    \item 第四个元素为1，state减1，为2
+    \item 第五个元素为1，state减1，为1
+    \item 第六个元素为1，state减1，为0
+    \item match函数返回0，则res为1，输出1
+\end{enumerate}
 
 \newpage
 \section{实验六：高精度整数}
 
 \subsection{题目描述}
-
+给定两个任意精度的整数 $a $和 $b$，满足 $a \leq b$，求出 $a+b$, $a−b, a×b$ 的值。顺序均为从高到低
 \subsection{算法流程}
-
+使用一维数组来存储高精度数，采用类似竖式计算的方式将结果写入到另外一个数组中，最后输出\\
+\\\
+各种计算的具体实现思路：
+\begin{itemize}
+    \item 定义一个初始值全0的结果数组
+    \item 加法：定义一个初始为0的进位值，从最低位开始，对两个加数的每位及进位值进行加法运算，结果mod 10存入结果数组，div 10作为进位值，当b取到最高位后取0参与运算，当a取到最高位结束
+    \item 减法：定义一个初始为0的借位值，从最低位开始，对两个数的每位及借位值进行减法运算，借位值此时变为0，结果为正就存入结果数组，结果为负就再加10存入，同时借位值变为1，当b取到最高位后取0参与运算，当a取到最高位时结束
+    \item 乘法：从b的最低位开始，每一位与a相乘后与结果数组中的对应值累加，当b的最高位计算结束之后处理结果数组中的进位，方法和上面的加法进位类似，当某一位结果为0且无进位值时结束
+    \item 输出结果：
+\end{itemize}
 \subsection{复杂度分析}
 
 \subsection{样例分析}
+测试样例如下图所示,其中a为133，b为100
+\Figure{0.25\textheight}{example6.png}\\
+算法过程如下：
 
 \newpage
 \section{实验七：割点和割边}
