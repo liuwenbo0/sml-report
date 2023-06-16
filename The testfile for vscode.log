@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.5.11)  16 JUN 2023 00:31
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.5.11)  16 JUN 2023 14:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -908,9 +908,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 329--332
 
  []
 
+[15]
 File: Figures//example6.png Graphic file (type bmp)
 <Figures//example6.png>
-[15] [16] [17] [18] [19] (./The testfile for vscode.aux)
+ [16] [17] [18] [19] [20] (./The testfile for vscode.aux)
 Package rerunfilecheck Info: File `"The testfile for vscode".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
@@ -923,4 +924,4 @@ Here is how much of TeX's memory you used:
  1348 hyphenation exceptions out of 8191
  89i,17n,97p,517b,1148s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on The testfile for vscode.pdf (19 pages).
+Output written on The testfile for vscode.pdf (20 pages).
