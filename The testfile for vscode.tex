@@ -76,8 +76,8 @@
 
 \subsection{算法流程}
 本题使用快速排序,做法是用$sml$的$List.partition$函数将序列分为小于$x$和大于$x$的两部分,进行递归求解,然后将两个子序列连接得到原问题的解。
-\par 由于$partition$本身就做了比较操作,故递归边界是子问题规模为0时返回一个空序列。
-
+\par 由于$partition$本身就做了比较操作,故递归边界是子问题规模为0时返回一个空序列。\\
+实现代码如下：
 \begin{lstlisting}
     val N = getInt();
     val a = getIntTable(N);
@@ -102,8 +102,8 @@ $$W(n)=W(n-1)+O(n)$$
 $$S(n)=S(n-1)+S(lgn)$$
 \par 由主定理$W(n)=O(n^2),S(n)=O(nlgn)$
 \\\
-\par  在平均情况下,假设输入数组的元素是随机分布的,选择第一个元素作为枢轴的快速排序的平均复杂度分析为$W(n)=O(nlgn),S(n)=O({lg}^2n)$
-
+\par  在平均情况下,假设输入数组的元素是随机分布的,选择第一个元素作为枢轴的快速排序的平均复杂度分析为$W(n)=O(nlgn),S(n)=O({lg}^2n)$\par
+由于只需要一个长度为n的数组来保存输入，故算法的空间复杂度为$O(n)$
 \subsection{样例分析}
 测试样例如下图所示,它是一个长度为10的序列
 \Figure{0.075\textheight}{example1.png}\\
@@ -133,12 +133,12 @@ $$S(n)=S(n-1)+S(lgn)$$
 本题需要计算从源点到其他各点的最短路径，因为不存在路径长度为负的情况，可以使用 Dijkstra 算法来解决\\
 算法描述如下：
 \begin{enumerate}
-    \item 创建一个初始值足够大的长度为$N$的数组$distance[]$来记录记录源点到所有点的最短距离
-    \item 创建一个初始值为false的长度为$N$的布尔数组$visited[]$来记录该点是否已被访问
+    \item 创建一个初始值足够大的长度为$N$的数组$distance[\ ]$来记录记录源点到所有点的最短距离
+    \item 创建一个初始值为false的长度为$N$的布尔数组$visited[\ ]$来记录该点是否已被访问
     \item 在未访问的顶点中，找到距离源点最近的顶点，将其标记为已访问
     \item 更新与该顶点相邻的未访问顶点的最短路径长度，如果经过当前顶点到达相邻顶点的路径长度比原先的路径长度短，则更新最短路径长度
     \item 如果还有节点没有访问,回到步骤3
-    \item 此时$distance[]$中的值即为源点到各顶点的最短路径长度,输出该值
+    \item 此时$distance[\ ]$中的值即为源点到各顶点的最短路径长度,输出该值
 \end{enumerate}
 算法伪代码描述如下：\\
 function Dijkstra(graph, source):\\
@@ -163,7 +163,7 @@ for $k=1$ to $\mathrm{N}-1$ :\\
 　　　　　　　　　$\operatorname{distance}[v]=\operatorname{distance}[u]+\operatorname{graph}[u][v]$\\
 return distance
 \subsection{复杂度分析}
-步骤三在未访问的顶点中，找到距离源点最近的顶点需要$O(n)$的$Work$和$O(lgn)$的$Span$\\
+步骤三在未访问的顶点中，找到距离源点最近的顶点需要$O(n)$的$Work$和$O(lgn)$的$Span$\par
 步骤四更新与该顶点相邻的未访问顶点的最短路径长度需要$O(n)$的$Work$和$O(1)$的$Span$\\
 $Dijkstra$是一个典型的串行算法,它的每次计算都依赖前面的结果\\
 那么总的$Work$为$O(n^2)$,$Span$为$O(nlgn)$\\\
@@ -184,7 +184,7 @@ $Dijkstra$是一个典型的串行算法,它的每次计算都依赖前面的结
     \item 还有节点未访问，minDist为未访问的2号节点到源点的距离6，更新$visited$为$[true,\textcolor{red}{true},false,false,true,true,false]$
     \item 更新与4号节点相邻的未访问顶点的最短路径长度，$distance$不变，此时我们其实已经得到了最终答案
     \item 重复上面的过程，直到所有节点都被访问
-    \item 此时$distance[]$中的值即为源点到各顶点的最短路径长度,输出$[4,6,7,7,0,3,5]$
+    \item 此时$distance[\ ]$中的值即为源点到各顶点的最短路径长度,输出$[4,6,7,7,0,3,5]$
 \end{enumerate}
 
 \newpage
@@ -198,7 +198,7 @@ $Dijkstra$是一个典型的串行算法,它的每次计算都依赖前面的结
 \subsection{算法流程}
 我们可以用栈来解决该问题，遍历括号序列，当遇到左括号时，将其位置入栈；当遇到右括号时，从栈顶去除相对应的左括号的位置，计算括号的距离(右括号减左括号加1)，并更新最大距离。最后返回最大距离即可\\
 \\\
-实现代码如下
+实现代码如下：
 \begin{lstlisting}
  (*****Begin*****)			 
 val N = getInt();   
@@ -245,7 +245,8 @@ printInt(res);
 们只需注意每个坐标的最高建筑的高度即可)
 
 \subsection{算法流程}
-采用扫描线的算法,只在边界点进行比较，使用优先队列维护最大高度，使用一个轮廓列表来存储轮廓结果
+采用扫描线的算法,只在边界点进行比较，使用优先队列维护最大高度，使用一个轮廓列表来存储轮廓结果\\
+具体实现思路：
 \begin{enumerate}
     \item 在输入数据的基础上加入地平线
     \item 使用快速排序按左边界坐标对输入的建筑物进行排序
@@ -337,6 +338,7 @@ printInt(res);
     \item 乘法：从b的最低位开始，每一位与a相乘后与结果数组中的对应值累加，当b的最高位计算结束之后处理结果数组中的进位，方法和上面的加法进位类似，当某一位结果为0且无进位值时结束
     \item 输出结果：将结果逆序输出，最高位的0不输出
 \end{itemize}
+\newpage
 \subsection{复杂度分析}
 定义存储a的数组长度为n，存储b的数组长度为m\\
 各高精度计算的复杂度如下：
@@ -379,12 +381,38 @@ printInt(res);
 \subsection{题目描述}
 给定一个具有$N$个顶点和$M$条边的图，找出图中的割点和割边的数量。割点是指删除该顶点后，图会被分成多个连通分量。割边是指删除该边后，图会被分成多个连通分量。
 \subsection{算法流程}
-用Tarjan算法求解图中的割点和割边，DFS得到深搜顺序dfn，同时记录low(从当前点出发能到达的点的dfn的最小值)，根据dfn和low来判别割点和割边
+用Tarjan算法求解图中的割点和割边，DFS得到深搜顺序dfn，同时记录low(从当前点出发能到达的点的dfn的最小值)，根据dfn和low来判别割点和割边，即假设对于A、B两个节点，$dfn[A] \leq low[B]$，说明A与B只可能按dfs序连接，也就说A、B之间的边为割边并且A是割点。同时判断根节点的度，如果度大于1则是割点。\\
+\\\
 具体实现思路：
+\begin{enumerate}
+    \item 初始化：为每个节点设置一个初始的DFS序号为0，并将所有节点标记为未访问状态
+    \item 从图中的任意未访问节点开始进行深度优先搜索（DFS）
+    \item 对于当前节点$v$，设置其DFS序号为当前的DFS计数，设置其低链接值（low-link value）为其DFS序号，并将其标记为已访问
+    \item 对于当前顶点$v$的每个邻接顶点$u$,如果$u$未被访问，则进行递归DFS，然后更新当前节点v的低链接值为$min(v\text{的低链接值}, u\text{的低链接值})$
+    \item 进行如下判断：\begin{enumerate}
+        \item 当前顶点$v$是图的根节点，并且度大于1,则$v$是一个割点
+        \item 对于当前节点$v$的每个邻居节点$u$，如果$u$的低链接值大于等于$v$的DFS序号，则$(v, u)$是一个割边,且$v$是一个割点
+    \end{enumerate}
+    \item 重复步骤2—5，直到图中的所有节点都被访问
+    \item 输出统计的割点和割边的数量
+\end{enumerate}
 
 \subsection{复杂度分析}
-
+该算法只需要一次深搜就能解决问题，如果是稀疏图，深搜的复杂度可以用节点的个数n和边的个数m表示，其$Work=Span=O(n+m)$,故整个算法也是$Work=Span=O(n+m)$\par
+算法需要邻接矩阵存储图结构，两个长度为n的数组dfn、low来保存深搜顺序和回溯节点，故总的空间复杂度为$O(n^2)$
 \subsection{样例分析}
+测试样例如下图所示,它是一张有5个节点，4条边的图
+\Figure{0.2\textheight}{example7.png}\\
+算法过程如下：
+\begin{enumerate}
+    \item 我们假设从编号为1的节点开始DFS
+    \item 当前序号为$(1)$，编号为1的节点的dfn为$(1)$，同时low也为$(1)$，假设按照编号顺序对其未访问过的邻接节点递归地进行DFS
+    \item 当前序号为$(2)$，编号为2的节点的dfn为$(2)$，同时low也为$(2)$，DFS返回
+    \item 当前序号为$(3)$，编号为3的节点的dfn为$(3)$，同时low也为$(3)$，DFS返回
+    \item 当前序号为$(3)$，编号为3的节点的dfn为$(3)$，同时low也为$(3)$，DFS返回
+    \item 当前序号为$(3)$，编号为3的节点的dfn为$(3)$，同时low也为$(3)$，DFS返回
+    \item 序号为$(1)$的节点的low仍为$(1)$，进行判断发现点1为割点，边1−2, 1−3, 1−4, 1−5为割边
+\end{enumerate}
 
 \newpage
 \section{实验八：静态区间查询}
@@ -394,21 +422,79 @@ printInt(res);
 数列以及$M$个查询的左右区间值，输出为分别查询出来的最大值。
 
 \subsection{算法流程}
-对于静态区间查询最值问题我们可以使用ST算法，做法是初始化一个ST表，$st[i][j]$表示从$i$到$2^{j-1}$范围内的最大值
+对于静态区间查询最值问题我们可以使用ST算法，做法是初始化一个ST表，$st[i][j]$表示从$i$到$2^{j-1}$范围内的最大值，则可以构建递归表达式$$st[ i ][ j ] =max{ st[ i ][ j-1 ] , st[ i+(1<<(j-1)) ][ j-1 ] }$$
+\par 由于数据规模满足$N \leq 1000$,只需要初始化一个大小为st[1000][10]的数组\\
+具体实现思路：
+\begin{enumerate}
+    \item 将输入存入一个长度为1000的数组A
+    \item 初始化一个大小为st[1000][10]的数组
+    \item 初始化ST的第一列，即将A中的每个元素复制到ST的第一列
+    \item 从第二列开始，每一列的元素值通过表达式$$st[ i ][ j ] =max{ st[ i ][ j-1 ] , st[ i+(1<<(j-1)) ][ j-1 ] }$$来计算
+    \item 对于每个查询\begin{enumerate}
+        \item 找到最大的$j$，满足$2^j <= len  = Right - Left + 1$
+        \item 最大值为$max(ST[L][j], ST[R-2^j+1][j])$
+    \end{enumerate}
+    \item 输出统计的割点和割边的数量
+\end{enumerate}
 \subsection{复杂度分析}
+由于创建ST表时，每一列只跟前一列有依赖关系，每一列的$n$个元素是可以并行计算的，一共有$lgn$列故创建ST表过程的$Work=O(nlgn),Span=O(lgn)$\par
+对于每个查询完全可以并行，且创建好ST表之后只需要常数级的查询代价,故查询过程的$Work=O(m),Span=O(1)$\par
+算法总的$Work=O(nlgn),Span=O(lgn)$\par
+$ST$表的规模为nlgn，故算法的空间复杂度为O(nlgn)
 
 \subsection{样例分析}
-
+测试样例如下图所示,它对一个长度为8的区间进行了8次查询
+\Figure{0.25\textheight}{example8.png}\\
+算法过程如下(只给出创建ST表和第一个查询的过程)：
+\begin{enumerate}
+    \item 初始化ST表的第一列为[9 3 1 7 5 6 0 8]
+    \item 根据递推式计算得到ST表的第二列为[9 3 7 7 6 6 8 8]
+    \item 根据递推式计算得到ST表的第三列为[9 7 7 7 6 8 8 8]
+    \item 根据递推式计算得到ST表的第四列为[9 7 7 7 8 8 8 8]
+    \item 对于第一个查询$[1,6]$,只需比较st[1][2]和st[3][2]得到9
+\end{enumerate}
 \newpage
 \section{实验九：素性测试}
 
 \subsection{题目描述}
-给定一个数$N$，判断它是否是素数
+给定一个数$N$，判断它是否是素数\\
+输入：一行，为一个任意大的正整数N，满足N≥2\\
+输出：如果是素数输出True，否则输出False
 \subsection{算法流程}
-
+使用Miller-Rabin米勒罗宾算法来判断是否为质数。考虑到对于一个质数 $p$，$a^{p-1}mod\ p=1$(费马小定理),将其与二次探测定理结合，将 $n-1$ 分解为 2 的幂与其他数$ u$ 的积，对 $a$ 求 $a^u \mod\ n=v$,若 $a^{u*2^s}=n-1 \mod\ n $则$ true$，否则$false$\\
+根据情况选择$a$进行检验：
+\Figure{0.25\textheight}{select.png}\\
+具体实现思路：
+\begin{enumerate}
+    \item 输入一个待检测的正整数$n$
+    \item 将$n-1$表示为$2^s * d$，其中$d$是一个奇数
+    \item 选择相应的$a$
+    \item 计算$x = a^d\ mod\ n$
+    \item 如果x等于1或者x等于n-1，则跳转到步骤9
+    \item 重复执行s-1次以下步骤\begin{enumerate}
+        \item 计算$x = x^2\ mod\ n$
+        \item 如果x等于1，则返回结果为$false$
+        \item 如果x等于n-1，则跳转到步骤9
+    \end{enumerate}
+    \item 返回$false$
+    \item 重复步骤3到步骤7，执行k次，其中k是一个参数，用于控制算法的准确性
+    \item 返回$true$
+\end{enumerate}
 \subsection{复杂度分析}
-
+费马小定理判断过程中，求快速幂和分解 n-1 的算法，$ Work=Span=O(lgn)$，二次判断的过程，只需要常数级$Work,Span$,一共$O(lgn)$次这样的判断，故该过程$Work=Span=O(lgn)$，所以算法总的 $Work=Span=O(lgn)$
+\par 算法所需的空间复杂度为常量级$O(1)$
 \subsection{样例分析}
-
+测试样例如下图所示,它检验1000003是否为素数
+\Figure{0.25\textheight}{example9.png}\\
+算法过程如下：
+\begin{enumerate}
+    \item 输入n=1000003
+    \item 分解n-1，得到$1000002=2^1*500001$
+    \item 选择a=2,3
+    \item 计算$2^{500001}\ mod\ 1000003$，得到x=1000002，计算$3^{500001}\ mod\ 1000003$，得到x=1000002
+    \item \Figure{0.2\textheight}{result1.png}
+    \item \Figure{0.2\textheight}{result2.png}
+    \item 故返回$true$
+\end{enumerate}
 
 \end{document}
